@@ -19,7 +19,7 @@ const Menu = () => {
 
             {/* ---------- CONTENEDOR GRID ---------- */}
             <div className="grid gap-6 p-6
-                grid-cols-1 md:grid-cols-2 md:grid-rows-2">
+                grid-cols-1 md:grid-cols-2 md:grid-rows-2 ">
 
                 {/* ---------- CARD 1 ---------- */}
                 <div
@@ -41,7 +41,7 @@ const Menu = () => {
                             Sube y gestiona los documentos clave de tu operación.
                         </p>
 
-                        <button className="group flex items-center text-red-600 font-medium">
+                        <button className="group flex items-center text-red-600 font-medium cursor-pointer">
                             Administrar
                             <svg className="h-5 w-5 ml-1 transition-transform duration-200 group-hover:translate-x-1"
                                 fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -71,7 +71,7 @@ const Menu = () => {
                             Supervisa y administra las órdenes de pago en cada etapa.
                         </p>
 
-                        <button className="group flex items-center text-red-600 font-medium">
+                        <button className="group flex items-center text-red-600 font-medium cursor-pointer">
                             Administrar
                             <svg className="h-5 w-5 ml-1 transition-transform duration-200 group-hover:translate-x-1"
                                 fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -101,7 +101,7 @@ const Menu = () => {
                             Mantén actualizada la base de pagadores y su información.
                         </p>
 
-                        <button className="group flex items-center text-red-600 font-medium">
+                        <button className="group flex items-center text-red-600 font-medium cursor-pointer">
                             Administrar
                             <svg className="h-5 w-5 ml-1 transition-transform duration-200 group-hover:translate-x-1"
                                 fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -131,7 +131,7 @@ const Menu = () => {
                             Controla los usuarios vinculados y sus permisos en la plataforma.
                         </p>
 
-                        <button className="group flex items-center text-red-600 font-medium">
+                        <button className="group flex items-center text-red-600 font-medium cursor-pointer">
                             Administrar
                             <svg className="h-5 w-5 ml-1 transition-transform duration-200 group-hover:translate-x-1"
                                 fill="none" viewBox="0 0 24 24" stroke="currentColor">

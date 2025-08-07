@@ -21,12 +21,20 @@ const ApproveDocuments = () => {
     }, [userData]);
 
     const getSelectedDocuments = () => {
-        return agreements.flatMap(agr =>
-            agr.documents
-                .filter(doc => doc.status === "SELECTED")
-                .map(doc => ({ ...doc, agreementId: agr.agreement_id }))
-        );
+    /* si por alguna razón agreements no es Array, devuelve [] */
+    if (!Array.isArray(agreements)) return [];
+
+        return agreements.reduce((acc, agr) => {
+            if (!Array.isArray(agr.documents)) return acc;      // seguridad extra
+
+            const docs = agr.documents
+            .filter(doc => doc.status === "SELECTED")
+            .map(doc => ({ ...doc, agreementId: agr.agreement_id }));
+
+            return acc.concat(docs);    // equivalente a flatMap
+        }, []);
     };
+
 
     useEffect(() => {
         const docs = getSelectedDocuments();
@@ -96,9 +104,11 @@ const ApproveDocuments = () => {
                     const promises = Object.entries(groups).map(
                         ([agreementId, documentIds]) =>
                             agreementService.updateDocumentsSelected({
-                                agreementId,
-                                documentIds,
-                                status: 'APPROVED'
+                                agreementId : agrId,
+                                status      : "APPROVED",
+                                documentIds : data.ids,
+                                payerId     : userData.entityId,
+                                authMode: 2
                             })
                     );
                     await Promise.all(promises);
@@ -147,7 +157,7 @@ const ApproveDocuments = () => {
                                     {filteredDocuments.length}
                                 </p>
                             </div>
-                            <p className="text-lg mt-2 font-medium">Documentos listos para aprobar</p>
+                            <p className="text-lg mt-2 font-medium">Documentos listos para desembolsar</p>
                         </div>
                     </div>
 
@@ -167,7 +177,7 @@ const ApproveDocuments = () => {
                             </div>
                         </div>
 
-                        <div>
+                        {/* <div>
                             <button
                                 onClick={handleApproveAll}
                                 className={`w-full text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200 ${selected.length > 0
@@ -178,7 +188,7 @@ const ApproveDocuments = () => {
                             >
                                 Aprobar seleccionados ({selected.length})
                             </button>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
 

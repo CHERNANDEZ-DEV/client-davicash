@@ -17,7 +17,7 @@ const Disclaimer = () => {
         <div>
           <p className="font-semibold">Aviso importante</p>
           <p className="mt-1 text-sm">
-            El desembolso de los documentos aprobados se efectuará en un día hábil (T+1) contado a partir de la fecha de aprobación.
+            El desembolso de los documentos aprobados se efectuará en un día hábil (T+1) contado a partir de la fecha de selección que su proveedor decida.
           </p>
         </div>
       </div>

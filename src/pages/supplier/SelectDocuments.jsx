@@ -253,16 +253,17 @@ const SelectDocuments = () => {
             const payload = {
                 agreementId: agreement.agreement_id,
                 documentIds: selectedIds,
-                status: "SELECTED"
+                status: "SELECTED",
+                payerId: agreement.payer,
+                authMode: 1
             };
 
             const response = await agreementService.updateDocumentsSelected(payload);
+            //const updatedAgreement = agreementService.getAgreementById(agreement.agreement_id);
+            //saveAgreement(updatedAgreement);
 
-            const updatedAgreement = agreementService.getAgreementById(agreement.agreement_id);
-
-            saveAgreement(updatedAgreement);
-
-            window.location.reload();
+            const { data } = await agreementService.getAgreementById(agreement.agreement_id);
+            saveAgreement(data); 
 
             return response;
         } catch (error) {
@@ -501,9 +502,6 @@ const SelectDocuments = () => {
                     <div className="flex justify-between items-center mb-4 bg-white p-4 rounded-lg shadow-sm border border-gray-100">
                         <div className="flex items-center gap-3">
                             <div className="relative">
-                                <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                    <Icon path={mdiFilter} size={0.9} className="text-red-500" />
-                                </div>
                                 <select
                                     value={selectedWeek || ''}
                                     onChange={(e) => {

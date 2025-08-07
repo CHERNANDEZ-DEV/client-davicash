@@ -82,7 +82,7 @@ const SelectDocumentsTwoModeAuth = () => {
         const loadAgreement = () => {
             try {
 
-                const uploadedDocuments = agreement.documents.filter(doc => doc.status === "APPROVED");
+                const uploadedDocuments = agreement.documents.filter(doc => doc.status === "SELECTED");
 
                 const mappedAccounts = uploadedDocuments.map(ccf => ({
                     id: ccf.document_id || ccf.documentNumber || ccf.numeroQuedan || ccf.numeroDTE,
@@ -134,12 +134,28 @@ const SelectDocumentsTwoModeAuth = () => {
     }, []);
 
 
+    // const calculateNextFriday = useCallback(() => {
+    //     const today = new Date();
+    //     const nextFriday = new Date(today);
+    //     nextFriday.setDate(today.getDate() + (5 - today.getDay() + 7) % 7);
+    //     setDisbursementDate(nextFriday);
+    //     return nextFriday;
+    // }, []);
+
     const calculateNextFriday = useCallback(() => {
-        const today = new Date();
-        const nextFriday = new Date(today);
-        nextFriday.setDate(today.getDate() + (5 - today.getDay() + 7) % 7);
-        setDisbursementDate(nextFriday);
-        return nextFriday;
+        // ── 1. Día siguiente
+        const nextDay = new Date();
+        nextDay.setDate(nextDay.getDate() + 1);   // T + 1
+
+        // ── 2. Omitir fin de semana (opcional)
+        if (nextDay.getDay() === 6) {             // Sábado → +2 ⇒ lunes
+            nextDay.setDate(nextDay.getDate() + 2);
+        } else if (nextDay.getDay() === 0) {      // Domingo → +1 ⇒ lunes
+            nextDay.setDate(nextDay.getDate() + 1);
+        }
+
+        setDisbursementDate(nextDay);             // actualiza estado
+        return nextDay;                           // devuelve la fecha
     }, []);
 
     const oneDayMs = 24 * 60 * 60 * 1000;
@@ -256,16 +272,20 @@ const SelectDocumentsTwoModeAuth = () => {
             const payload = {
                 agreementId: agreement.agreement_id,
                 documentIds: selectedIds,
-                status: "SELECTED"
+                status: "APPROVED",
+                payerId: agreement.payer,
+                authMode: 2
             };
 
             const response = await agreementService.updateDocumentsSelected(payload);
 
-            const updatedAgreement = agreementService.getAgreementById(agreement.agreement_id);
+            // const updatedAgreement = agreementService.getAgreementById(agreement.agreement_id);
+            // saveAgreement(updatedAgreement);
 
-            saveAgreement(updatedAgreement);
+            const { data } = await agreementService.getAgreementById(agreement.agreement_id);
++           saveAgreement(data); 
 
-            window.location.reload();
+            //window.location.reload();
 
             return response;
         } catch (error) {
@@ -504,9 +524,6 @@ const SelectDocumentsTwoModeAuth = () => {
                     <div className="flex justify-between items-center mb-4 bg-white p-4 rounded-lg shadow-sm border border-gray-100">
                         <div className="flex items-center gap-3">
                             <div className="relative">
-                                <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                    <Icon path={mdiFilter} size={0.9} className="text-red-500" />
-                                </div>
                                 <select
                                     value={selectedWeek || ''}
                                     onChange={(e) => {

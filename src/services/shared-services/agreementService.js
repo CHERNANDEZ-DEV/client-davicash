@@ -5,11 +5,13 @@ const updateDocumentsSelected = async (payload) => {
     try {
 
         const requestData = {
-            documentIds: payload.documentIds // Usar documentIds para coincidir con tu payload
+            documentIds: payload.documentIds 
         };
 
+        console.log(payload.payerId);
+
         const response = await api.post(
-            `/agreement/updateDocuments/${payload.agreementId}/${payload.status}`,
+            `/agreement/updateDocuments/${payload.agreementId}/${payload.status}/${payload.payerId}/${payload.authMode}`,
             requestData
         );
 

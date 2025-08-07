@@ -1,5 +1,5 @@
 import SweetAlert from 'sweetalert2';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { agreementService } from '../../services/shared-services/agreementService';
 
@@ -8,7 +8,12 @@ const ApproveDocuments = () => {
     const [selected, setSelected] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [dateFilter, setDateFilter] = useState('');
-    const { userData } = useAuth();
+    const { userData, user } = useAuth();
+    const [ totalAmount, setTotalAmount ] = useState(0);
+
+    useEffect(() => {
+        console.log(user);
+    }, [])
 
     useEffect(() => {
         const fetchAgreements = async () => {
@@ -33,6 +38,23 @@ const ApproveDocuments = () => {
         setSelected(docs.map(d => d.document_id));
     }, [agreements]);
 
+    const totalSeleccionado = useMemo(() => {                               
+        const docs = getSelectedDocuments().filter(d =>
+            selected.includes(d.document_id)
+        );
+        return docs.reduce((acc, d) => acc + Number(d.amount || 0), 0);
+    }, [agreements, selected]);
+
+    /* Agrupar por agreementId y sumar montos 🔸 NUEVO */
+    const docs    = getSelectedDocuments().filter(d => selected.includes(d.document_id));
+    const grouped = docs.reduce((acc, d) => {
+      const g = acc[d.agreementId] || { ids: [], total: 0, payerId: d.payerId };
+      g.ids.push(d.document_id);
+      g.total += Number(d.amount || 0);
+      acc[d.agreementId] = g;
+      return acc;
+    }, {});
+
     const handleSelect = documentId => {
         setSelected(prev =>
             prev.includes(documentId)
@@ -50,18 +72,23 @@ const ApproveDocuments = () => {
 
     const formatDate = raw => {
         if (raw == null || raw === '') return 'N/A';
+
         let dateObj;
         if (typeof raw === 'number' || /^\d+$/.test(raw)) {
-            const serial = Number(raw);
+            const serial  = Number(raw);
             const utcDays = serial - 25569;
-            dateObj = new Date(utcDays * 86400 * 1000);
+            dateObj = new Date(utcDays * 86400 * 1000);   // sigue igual
         } else {
             dateObj = new Date(raw);
         }
         return dateObj.toLocaleDateString('es-ES', {
-            day: '2-digit', month: '2-digit', year: 'numeric'
+            timeZone: 'UTC',         
+            day:   '2-digit',
+            month: '2-digit',
+            year:  'numeric'
         });
     };
+
 
     const handleApproveAll = async () => {
         if (selected.length === 0) {
@@ -76,6 +103,7 @@ const ApproveDocuments = () => {
         const docs = getSelectedDocuments().filter(doc =>
             selected.includes(doc.document_id)
         );
+
         const groups = docs.reduce((acc, doc) => {
             acc[doc.agreementId] = acc[doc.agreementId] || [];
             acc[doc.agreementId].push(doc.document_id);
@@ -91,17 +119,17 @@ const ApproveDocuments = () => {
             cancelButtonText: 'Cancelar',
             showLoaderOnConfirm: true,
             preConfirm: async () => {
-                // Ejecutar una llamada por cada convenio
                 try {
-                    const promises = Object.entries(groups).map(
-                        ([agreementId, documentIds]) =>
-                            agreementService.updateDocumentsSelected({
-                                agreementId,
-                                documentIds,
-                                status: 'APPROVED'
-                            })
+                    const calls = Object.entries(grouped).map(([agrId, data]) =>
+                        agreementService.updateDocumentsSelected({
+                            agreementId : agrId,
+                            status      : "APPROVED",
+                            documentIds : data.ids,
+                            payerId     : userData.entityId,
+                            authMode: 1
+                        })
                     );
-                    await Promise.all(promises);
+                    await Promise.all(calls);
 
                 } catch (error) {
                     SweetAlert.fire('Error', 'Ocurrió un error al aprobar.', 'error');

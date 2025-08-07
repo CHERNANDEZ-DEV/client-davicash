@@ -5,6 +5,7 @@ import { uploadFileTwo } from '../../services/admin/uploadFileService';
 import { payerService } from '../../services/admin/payerService';
 import Swal from 'sweetalert2';
 import { useAuth } from '../../context/AuthContext';
+import Disclaimer from '../../components/Disclaimer';
 
 
 const UploadFilePageAuthTwo = () => {
@@ -251,11 +252,12 @@ const UploadFilePageAuthTwo = () => {
                                 </div>
                             </div>
 
-                            <div className="bg-gray-50 px-8 py-4 border-t border-gray-200">
+                            <div className="bg-gray-50 px-8 py-4 border-t border-gray-200 mb-8">
                                 <p className="text-xs text-gray-500">
                                     Última actualización: {new Date().toLocaleDateString()} | Versión 1.0.0
                                 </p>
                             </div>
+                            <Disclaimer></Disclaimer>
                         </div>
                     </div>
                 </div>

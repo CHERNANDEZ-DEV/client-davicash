@@ -119,7 +119,7 @@ const CreatePayer = () => {
                     </div>
 
                     <div>
-                        <label htmlFor="code" className="block text-gray-700 text-sm font-bold mb-2">NIU</label>
+                        <label htmlFor="code" className="block text-gray-700 text-sm font-bold mb-2">Código</label>
                         <input
                             id="code"
                             type="number"
@@ -131,7 +131,7 @@ const CreatePayer = () => {
                                 }
                             })}
                             className={`font-montserrat w-full p-2 border ${errors.code ? 'border-red-500' : 'border-red-300'} rounded-md`}
-                            placeholder="234567"
+                            placeholder="23456790"
                         />
                         {errors.code && (
                             <p className="mt-1 text-red-500 text-sm">{errors.code.message}</p>

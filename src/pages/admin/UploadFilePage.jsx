@@ -76,7 +76,7 @@ const UploadFilePage = () => {
                     setSelectedFile(null);
                     setUploadProgress(0);
                     setUploadStatus('');
-                    window.location.reload(); // Recargar la página para ver los cambios
+                    window.location.reload();
                 });
             }
 
@@ -108,26 +108,10 @@ const UploadFilePage = () => {
         <div className="flex h-screen bg-gray-100 pt-20">
 
             <div className="w-full md:w-1/3 lg:w-1/4 m-6 bg-gradient-to-r from-red-600 to-red-800 bg-red-800 text-white p-4 rounded-xl shadow-lg overflow-y-auto font-montserrat">
-                {/* <div className="sticky top-0 bg-red-800 pb-4 z-10">
-                    <h2 className="text-xl font-bold mb-2">Lista de Pagadores</h2>
-                    <div className="relative">
-                        <input
-                            type="text"
-                            placeholder="Buscar pagador..."
-                            className="w-full p-2 rounded-md bg-red-900 text-white placeholder-red-300 border border-red-600 focus:outline-none focus:ring-2 focus:ring-red-400"
-                        />
-                        <svg className="absolute right-3 top-2.5 h-5 w-5 text-red-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                        </svg>
-                    </div>
-                </div> */}
-
-
 
                 <div className="space-y-3 mt-2 flex justify-center">
                     {payers.length === 0 ? (
                         <div className="font-montserrat flex flex-col items-center justify-center py-16 text-center mx-auto">
-                            {/* Ícono */}
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 24 24"
@@ -187,7 +171,7 @@ const UploadFilePage = () => {
                                             ? 'bg-red-600 text-white'
                                             : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                                         }`}>
-                                        {selectedPayerId === payer.id ? '✓ Seleccionado' : 'Seleccionar'}
+                                        {selectedPayerId === payer.id ? 'Seleccionado' : 'Seleccionar'}
                                     </div>
                                 </div>
                             ))}
@@ -198,22 +182,6 @@ const UploadFilePage = () => {
 
             <div className="flex-1 mr-6 mt-6 mb-6 font-montserrat">
                 <div className="bg-white rounded-2xl shadow-lg  h-full flex flex-col justify-evenly border-2 border-gray-200">
-
-                    {/* <div>
-                        <div className="text-center mb-6">
-                            <h1 className="text-2xl font-semibold text-gray-800 mb-2">
-                                Bienvenido, <span className="text-red-600">Carlos Alberto Hernández Guerra</span>
-                            </h1>
-                            <div className="w-24 h-1 bg-red-600 mx-auto"></div>
-                        </div>
-
-                        <div className="flex justify-center items-center gap-2 text-gray-700">
-                            <Icon path={mdiClockOutline} size={0.8} color="gray" />
-                            <span className="font-medium">
-                                {formattedDate} - {formattedTime}
-                            </span>
-                        </div>
-                    </div> */}
 
                     <div className="w-2xl mx-auto">
                         <div className="">
