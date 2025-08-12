@@ -159,7 +159,7 @@ const AppContent = () => {
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/davicash">
       <AuthProvider>
         <AgreementProvider>
           <AppContent />
