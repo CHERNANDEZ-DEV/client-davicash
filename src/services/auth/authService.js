@@ -11,7 +11,7 @@ const linkUser = async (data) => {
         return response;
     } catch (error) {
         console.error('Failed to link user:', error);
-        throw error; // Re-throw the error for further handling
+        throw error; 
     }
 }
 

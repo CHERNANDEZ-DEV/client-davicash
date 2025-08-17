@@ -97,7 +97,7 @@ export const AuthProvider = ({ children }) => {
 
         try {
             const response = await axios.post('/login', payload, {
-                baseURL: 'http://localhost:8080',
+                baseURL: 'https://uatbancaempresas.davivienda.com.sv/APIFinanciamientoEmpresas',
                 withCredentials: true
             });
 
@@ -114,7 +114,7 @@ export const AuthProvider = ({ children }) => {
     const logout = async () => {
         try {
             await axios.post('/logout', null, {
-                baseURL: 'http://localhost:8080'
+                baseURL: 'https://uatbancaempresas.davivienda.com.sv/APIFinanciamientoEmpresas'
             });
             setUser(null);
             setLoginTime(null);

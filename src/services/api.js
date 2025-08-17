@@ -3,7 +3,7 @@ import axios from "axios";
 axios.defaults.withCredentials = true;
 
 const api = axios.create({
-    baseURL: '',
+    baseURL: 'https://uatbancaempresas.davivienda.com.sv/APIFinanciamientoEmpresas/api',
     withCredentials: true
 });
 
