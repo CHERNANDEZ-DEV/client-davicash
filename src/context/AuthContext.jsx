@@ -93,11 +93,29 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
+    // const login = async (payload) => {
+
+    //     try {
+    //         const response = await axios.post('/login', payload, {
+    //             baseURL: 'https://uatbancaempresas.davivienda.com.sv/APIFinanciamientoEmpresas',
+    //             withCredentials: true
+    //         });
+
+    //         if (response.status == !200) throw new Error("Login fallido");
+
+    //         setLoginTime(Date.now());
+
+    //         return response;
+    //     } finally {
+
+    //     }
+    // };
+
     const login = async (payload) => {
 
         try {
             const response = await axios.post('/login', payload, {
-                baseURL: 'https://uatbancaempresas.davivienda.com.sv/APIFinanciamientoEmpresas',
+                baseURL: 'http://localhost:8080',
                 withCredentials: true
             });
 
@@ -111,10 +129,22 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
+    // const logout = async () => {
+    //     try {
+    //         await axios.post('/logout', null, {
+    //             baseURL: 'https://uatbancaempresas.davivienda.com.sv/APIFinanciamientoEmpresas'
+    //         });
+    //         setUser(null);
+    //         setLoginTime(null);
+    //     } catch (err) {
+    //         console.error('Error al cerrar sesión:', err);
+    //     }
+    // };
+
     const logout = async () => {
         try {
             await axios.post('/logout', null, {
-                baseURL: 'https://uatbancaempresas.davivienda.com.sv/APIFinanciamientoEmpresas'
+                baseURL: 'http://localhost:8080'
             });
             setUser(null);
             setLoginTime(null);
